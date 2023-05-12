@@ -43,11 +43,8 @@
 library(sf)
 library(sp)
 library(maptools)
-library(tmap)
 library(rgeos)
 library(haven)
-library(readr)
-library(dplyr)
 library(tidyverse)
 library(tmaptools)
 library(compareGroups)
@@ -122,7 +119,7 @@ data(World, metro, rivers, land)
 
 tmap_mode("plot")
 ## tmap mode set to plotting
-tm_shape(land) +
+tm_shape(land, bbox = c(-15,35,45,65)) +
   tm_raster("elevation", palette = terrain.colors(10)) +
   tm_shape(World) +
   tm_borders("white", lwd = .5) +
@@ -159,6 +156,9 @@ coordinates(ETH_malaria_data) <- ~ longitude + latitude
 
 ## convert to sf object
 ETH_malaria_data <- st_as_sf(ETH_malaria_data)
+
+tm_shape(ETH_malaria_data) +
+  tm_dots("lower_age")
 
 ## Get populationss
 pops <- read_csv("GIS_data/Ethiopia/admin/eth_pops.csv")
